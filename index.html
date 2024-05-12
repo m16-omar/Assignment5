@@ -4,53 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transaction System</title>
-    <link rel="stylesheet" href="indext.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <button onclick="showTransactionForm()">Open Transaction Form</button>
-
-    <div id="transactionModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="hideTransactionForm()">&times;</span>
-            <h1>Transaction System</h1>
-            <form id="transactionForm">
+    <div class="container">
+        <h1>Transaction System</h1>
+        <form id="transactionForm">
+            <div id="cardField">
                 <label for="card">Insert your card:</label>
                 <input type="text" id="card" name="card" required>
+                <button type="button" onclick="showNextField('pinField')">Next</button>
+            </div>
 
+            <div id="pinField" style="display: none;">
                 <label for="pin">Enter your PIN:</label>
                 <input type="password" id="pin" name="pin" required>
+                <button type="button" onclick="showNextField('transactionTypeField')">Next</button>
+            </div>
 
+            <div id="transactionTypeField" style="display: none;">
                 <label for="transactionType">Select transaction type:</label>
-                <select id="transactionType" name="transactionType" required onchange="showTransferDetails()">
+                <select id="transactionType" name="transactionType" required>
                     <option value="withdraw">Withdraw</option>
                     <option value="transfer">Transfer</option>
                 </select>
+                <button type="button" onclick="showNextField('receiverAccountField')">Next</button>
+            </div>
 
-                <div id="transferDetails" style="display: none;">
-                    <label for="receiverAccount">Receiver's Account Number:</label>
-                    <input type="text" id="receiverAccount" name="receiverAccount">
-                    
-                    <label for="bank">Select Bank:</label>
-                    <select id="bank" name="bank">
-                        <option value="UBA">UBA</option>
-                        <option value="Access Bank">Access Bank</option>
-                        <option value="GTB">GTB</option>
-                    </select>
+            <div id="receiverAccountField" style="display: none;">
+                <label for="receiverAccount">Receiver's Account Number:</label>
+                <input type="text" id="receiverAccount" name="receiverAccount">
+                <button type="button" onclick="showNextField('bankField')">Next</button>
+            </div>
+            
+            <div id="bankField" style="display: none;">
+                <label for="bank">Select Bank:</label>
+                <select id="bank" name="bank">
+                    <option value="UBA">UBA</option>
+                    <option value="Access Bank">Access Bank</option>
+                    <option value="GTB">GTB</option>
+                </select>
+                <button type="button" onclick="showNextField('amountField')">Next</button>
+            </div>
 
-                    <div id="receiverInfo" style="display: none;">
-                        <h3>Receiver Information</h3>
-                        <p id="receiverName"></p>
-                        <p id="receiverAccountNumber"></p>
-                        <p id="receiverBank"></p>
-                    </div>
-                </div>
-
+            <div id="amountField" style="display: none;">
                 <label for="amount">Enter amount:</label>
                 <input type="number" id="amount" name="amount" required>
-
                 <button type="button" onclick="confirmTransaction()">Confirm</button>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
     <script src="index.js"></script>

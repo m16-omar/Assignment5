@@ -1,26 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATM Interface</title>
-  <link rel="stylesheet" href="indext.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction System</title>
+    <link rel="stylesheet" href="indext.css">
 </head>
 <body>
-  <div class="container">
-    <h1>ATM Interface</h1>
-    <button id="loginBtn">Login</button>
-    <div id="transferForm" class="hidden">
-      <h2>Welcome, <span id="loggedInUser"></span>!</h2>
-      <label for="amount">Enter amount to transfer:</label>
-      <input type="number" id="amount" name="amount" min="1" required>
-      <label for="recipient">Recipient's Account:</label>
-      <input type="text" id="recipient" name="recipient" required>
-      <button id="transferBtn">Transfer</button>
-      <button id="logoutBtn">Logout</button>
-    </div>
-  </div>
+    <button onclick="showTransactionForm()">Open Transaction Form</button>
 
-  <script src="index.js"></script>
+    <div id="transactionModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideTransactionForm()">&times;</span>
+            <h1>Transaction System</h1>
+            <form id="transactionForm">
+                <label for="card">Insert your card:</label>
+                <input type="text" id="card" name="card" required>
+
+                <label for="pin">Enter your PIN:</label>
+                <input type="password" id="pin" name="pin" required>
+
+                <label for="transactionType">Select transaction type:</label>
+                <select id="transactionType" name="transactionType" required onchange="showTransferDetails()">
+                    <option value="withdraw">Withdraw</option>
+                    <option value="transfer">Transfer</option>
+                </select>
+
+                <div id="transferDetails" style="display: none;">
+                    <label for="receiverAccount">Receiver's Account Number:</label>
+                    <input type="text" id="receiverAccount" name="receiverAccount">
+                    
+                    <label for="bank">Select Bank:</label>
+                    <select id="bank" name="bank">
+                        <option value="UBA">UBA</option>
+                        <option value="Access Bank">Access Bank</option>
+                        <option value="GTB">GTB</option>
+                    </select>
+
+                    <div id="receiverInfo" style="display: none;">
+                        <h3>Receiver Information</h3>
+                        <p id="receiverName"></p>
+                        <p id="receiverAccountNumber"></p>
+                        <p id="receiverBank"></p>
+                    </div>
+                </div>
+
+                <label for="amount">Enter amount:</label>
+                <input type="number" id="amount" name="amount" required>
+
+                <button type="button" onclick="confirmTransaction()">Confirm</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
 </body>
 </html>

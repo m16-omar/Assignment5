@@ -1,57 +1,43 @@
-// Bank accounts database
-let accounts = [
-    { username: "0123456789", balance: 1000 },
-    { username: "0123456789", balance: 500 },
-    { username: "0123456789", balance: 1500 }
-  ];
-  
-  // Function to find account by username
-  function findAccount(username) {
-    return accounts.find(account => account.username === username);
+function showTransactionForm() {
+  document.getElementById('transactionModal').style.display = 'block';
+}
+
+function hideTransactionForm() {
+  document.getElementById('transactionModal').style.display = 'none';
+}
+
+function showTransferDetails() {
+  const transactionType = document.getElementById('transactionType').value;
+  const transferDetails = document.getElementById('transferDetails');
+  if (transactionType === 'transfer') {
+      transferDetails.style.display = 'block';
+  } else {
+      transferDetails.style.display = 'none';
   }
-  
-  // Function to transfer money
-  function transferMoney(sender, recipient, amount) {
-    const senderAccount = findAccount(sender);
-    const recipientAccount = findAccount(recipient);
-  
-    if (!senderAccount || !recipientAccount) {
-      alert("Invalid sender or recipient.");
-      return;
-    }
-  
-    if (senderAccount.balance < amount) {
-      alert("Insufficient funds.");
-      return;
-    }
-  
-    senderAccount.balance -= amount;
-    recipientAccount.balance += amount;
-  
-    alert(`Transfer successful! ${amount} funds transferred from ${sender} to ${recipient}.`);
+}
+
+function confirmTransaction() {
+  const card = document.getElementById('card').value;
+  const pin = document.getElementById('pin').value;
+  const transactionType = document.getElementById('transactionType').value;
+  const receiverAccount = document.getElementById('receiverAccount').value;
+  const bank = document.getElementById('bank').value;
+  const amount = document.getElementById('amount').value;
+
+  if (transactionType === 'transfer') {
+      const confirmTransfer = confirm(`Confirm transfer to ${receiverAccount} at ${bank} with amount NGN ${amount}?`);
+      if (confirmTransfer) {
+          const senderPreviousBalance = 100000;
+          const receiverPreviousBalance = 10000;
+          const senderNewBalance = senderPreviousBalance - amount;
+          const receiverNewBalance = receiverPreviousBalance + parseInt(amount);
+
+          alert(`Transaction successful!\nSender's Previous Balance: NGN ${senderPreviousBalance}\nSender's New Balance: NGN ${senderNewBalance}\nReceiver's Previous Balance: NGN ${receiverPreviousBalance}\nReceiver's New Balance: NGN ${receiverNewBalance}`);
+          hideTransactionForm();
+      } else {
+          alert('Transaction cancelled.');
+      }
+  } else {
+      // Logic for other transaction types (e.g., withdraw)
   }
-  
-  // Main function
-  function main() {
-    const sender = prompt("Enter recipient's account number:");
-    const recipient = prompt("Enter recipient's account name:");
-    const amount = parseFloat(prompt("Enter the amount to transfer:"));
-  
-    if (!sender || !recipient || isNaN(amount) || amount <= 0) {
-      alert("Invalid input. Please try again.");
-      return;
-    }
-  
-    const confirmMsg = `Confirm transfer of ${amount} funds from ${sender} to ${recipient}?`;
-    const confirmed = confirm(confirmMsg);
-  
-    if (confirmed) {
-      transferMoney(sender, recipient, amount);
-    } else {
-      alert("Transfer cancelled.");
-    }
-  }
-  
-  // Call the main function
-  main();
-  
+}

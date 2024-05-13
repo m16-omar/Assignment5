@@ -1,28 +1,71 @@
-let currentIndex = 0;
-const formFields = ['cardField', 'pinField', 'transactionTypeField', 'receiverAccountField', 'bankField', 'amountField'];
+// Define initial account balances
+let senderBalance = 100000;
+let receiverBalance = 10000;
 
-function showNextField(nextFieldId) {
-    // Hide the current field
-    const currentField = document.getElementById(formFields[currentIndex]);
-    currentField.style.display = 'none';
+// Function to handle the bank transfer process
+function transferMoney() {
+  // Step 1: Insert card 
+  const insertCard = prompt("Please insert your card by typing 'Yes'");
+  if (insertCard.toLowerCase() !== 'yes') {
+    alert("Invalid input. Please try again.");
+    return;
+  }
 
-    // Show the next field
-    const nextField = document.getElementById(nextFieldId);
-    nextField.style.display = 'block';
+  // Step 2: Enter PIN
+  const pin = prompt("Please enter your PIN:");
+  if (pin !== '1234') {
+    alert("Incorrect PIN. Transaction canceled.");
+    return;
+  }
 
-    // Increment the index for the next field
-    currentIndex++;
+  // Step 3: Select transfer option
+  const option = prompt("Type 1 to withdraw\nType 2 to transfer");
+  if (option === '2') {
+    // Step 4: Enter receiver account number
+    const receiverAccountNumber = prompt("Please enter receiver's account number:");
+
+    // Step 5: Select receiver bank
+    const receiverBank = prompt("Please select receiver's bank:\n1. UBA\n2. Access Bank\n3. GTB");
+    let bankName;
+    switch (receiverBank) {
+      case '1':
+        bankName = "UBA";
+        break;
+      case '2':
+        bankName = "Access Bank";
+        break;
+      case '3':
+        bankName = "GTB";
+        break;
+      default:
+        alert("Invalid bank selection. Transaction canceled.");
+        return;
+    }
+
+    // Step 6: Confirm transaction
+    const confirmTransaction = confirm(`Please confirm the transaction:\nReceiver's account number: ${receiverAccountNumber}\nBank: ${bankName}`);
+    if (!confirmTransaction) {
+      alert("Transaction canceled.");
+      return;
+    }
+
+    // Step 7: Enter transfer amount
+    const transferAmount = parseFloat(prompt("Please enter the transfer amount:"));
+    if (isNaN(transferAmount) || transferAmount <= 0) {
+      alert("Invalid amount. Transaction canceled.");
+      return;
+    }
+
+    // Step 8: Deduct amount from sender and add to receiver
+    senderBalance -= transferAmount;
+    receiverBalance += transferAmount;
+
+    // Step 9: Show transaction details
+    alert(`Transfer successful!\nSender's previous balance: $100000\nSender's new balance: $${senderBalance.toFixed(2)}\nReceiver's previous balance: $10000\nReceiver's new balance: $${receiverBalance.toFixed(2)}`);
+  } else {
+    alert("Invalid option. Transaction canceled.");
+  }
 }
 
-function confirmTransaction() {
-    // Get form data
-    const card = document.getElementById('card').value;
-    const pin = document.getElementById('pin').value;
-    const transactionType = document.getElementById('transactionType').value;
-    const receiverAccount = document.getElementById('receiverAccount').value;
-    const bank = document.getElementById('bank').value;
-    const amount = document.getElementById('amount').value;
-
-    // Perform transaction confirmation logic (for demonstration, simply show an alert)
-    alert(`Confirm transaction:\nCard: ${card}\nPIN: ${pin}\nTransaction Type: ${transactionType}\nReceiver's Account: ${receiverAccount}\nBank: ${bank}\nAmount: ${amount}`);
-}
+// Call the transferMoney function
+transferMoney();

@@ -61,7 +61,9 @@ function transferMoney() {
     receiverBalance += transferAmount;
 
     // Step 9: Show transaction details
-    alert(`Transfer successful!\nSender's previous balance: $100000\nSender's new balance: $${senderBalance.toFixed(2)}\nReceiver's previous balance: $10000\nReceiver's new balance: $${receiverBalance.toFixed(2)}`);
+    const formattedSenderBalance = senderBalance.toLocaleString('en-US', { style: 'currency', currency: 'NGN' });
+    const formattedReceiverBalance = receiverBalance.toLocaleString('en-US', { style: 'currency', currency: 'NGN' });
+    alert(`Transfer successful!\nSender's previous balance: ₦100,000\nSender's new balance: ${formattedSenderBalance}\nReceiver's previous balance: ₦10,000\nReceiver's new balance: ${formattedReceiverBalance}`);
   } else {
     alert("Invalid option. Transaction canceled.");
   }
